@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  auth:
+      build: ./AuthApi
+      ports:
+        - "5155:8080"
+      networks:
+        - mynetwork
+
+  consolidated:
+    build: ./ConsolidatedApi
+    networks:
+        - mynetwork
+    ports:
+      - "5084:8080"
+
+  release:
+    networks:
+        - mynetwork
+    build: ./ReleaseAPI
+    ports:
+      - "5269:8080"
+  releaseconsole:
+    networks:
+        - mynetwork
+    build: ./ReleaseAPI
+    command: ["dotnet", "ReleaseAPI.dll", "console"]
+
+  releaseconsole2:
+    networks:
+        - mynetwork
+    build: ./ReleaseAPI
+    command: ["dotnet", "ReleaseAPI.dll", "console"]  
+  localstack:
+    image: localstack/localstack
+    networks:
+      - mynetwork
+    ports:
+      - "4566:4566"  # Porta do LocalStack
+      - "4510-4559:4510-4559"  # Portas para serviços adicionais (se necessário)
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_ACCESS_KEY_ID=test  # Arbitrary value
+      - AWS_SECRET_ACCESS_KEY=test  # Arbitrary value
+      - AWS_REGION=us-east-1  # Specify a region
+    volumes:
+      - "./localstack:/var/lib/localstack"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    networks:
+      - mynetwork
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: AuthDatabase
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+networks:
+  mynetwork:
+    driver: bridge
+volumes:
+  mongodb_data:
+    driver: local

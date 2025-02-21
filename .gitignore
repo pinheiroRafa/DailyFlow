@@ -1,0 +1,68 @@
+## Windows
+##############################
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+## User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## User-specific files for Visual Studio for Mac
+.vscode/
+
+## Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+## Windows Installer files
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+
+# Ignore build output directories
+bin/
+obj/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# User-specific files
+.idea/
+.vscode/
+.vs/
+
+# VS for Mac
+.vscode/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# .NET Core Tooling
+# .NET Core SDK does not require this file
+# tools/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+*/bin/
+*/publish/
+localstack
+*/localstack

@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "6a331ade-ab26-4dc5-bc58-e114df880424",
+		"name": "RELEASES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2195127"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"rafael@email.com\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5155/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5155",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "release",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2I4OTgxYjY4ZTJmMGFlMTVhMDBhYTEiLCJjb21wYW55SWQiOiI2N2I4OTgxYjY4ZTJmMGFlMTVhMDBhYTIiLCJleHAiOjE3NDAxNTMxNzMsImlzcyI6IlNldUlzc3VlciIsImF1ZCI6IlNldUF1ZGllbmNlIn0.T2ZAm-JzXJTqGGx0BNECKXjM2NVODpsWLQ9Ur09qo8vEG1JKOmRVA3V_P4GXeHBJhican_0vKTHDMN3XBj91bRu-1ch3cnj2oyQsGiZGQgm_I_dn5VwPZmydzuAR1nSAHDkU7AWJkpfhYiRWvKTI9rHkjeAXyprFtU09qvq36V_jV0MkcZ_cZaxHEFLfTW3eJmrpuf3ZM3xBfXg_IiJH7g0uFs7nj6FwKjPzMyu_Q2HO5fIN7Z0DvjhpedMqqmM9z9yCN2AnHeT1_j7ki1u4iq5P6H1xYc9O6oEzCQqlS7rPEgDVlSAUD0u9n99y0O_o5BYjNXYjzxBfgE-y_N2cYQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": 100,\n    \"description\": \"Entrada\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5269/api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5269",
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consolidated",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2I4OTgxYjY4ZTJmMGFlMTVhMDBhYTEiLCJjb21wYW55SWQiOiI2N2I4OTgxYjY4ZTJmMGFlMTVhMDBhYTIiLCJleHAiOjE3NDAxNTMxNzMsImlzcyI6IlNldUlzc3VlciIsImF1ZCI6IlNldUF1ZGllbmNlIn0.T2ZAm-JzXJTqGGx0BNECKXjM2NVODpsWLQ9Ur09qo8vEG1JKOmRVA3V_P4GXeHBJhican_0vKTHDMN3XBj91bRu-1ch3cnj2oyQsGiZGQgm_I_dn5VwPZmydzuAR1nSAHDkU7AWJkpfhYiRWvKTI9rHkjeAXyprFtU09qvq36V_jV0MkcZ_cZaxHEFLfTW3eJmrpuf3ZM3xBfXg_IiJH7g0uFs7nj6FwKjPzMyu_Q2HO5fIN7Z0DvjhpedMqqmM9z9yCN2AnHeT1_j7ki1u4iq5P6H1xYc9O6oEzCQqlS7rPEgDVlSAUD0u9n99y0O_o5BYjNXYjzxBfgE-y_N2cYQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": 10,\n    \"description\": \"Entrada\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5084/api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5084",
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
