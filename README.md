@@ -35,6 +35,58 @@ Para otimizar o desempenho, a API armazena o primeiro resultado em um cache Redi
 
 OS dados vão para um base MONGODB
 
+## Evitando Sobrecarga na Validação do Usuário
+
+Para garantir a segurança das transações e evitar sobrecarga na base de dados durante a validação do usuário, foi adotada a autenticação via JWT. Esse modelo permite centralizar a autenticação e validar tokens em qualquer API backend sem a necessidade de consultar novamente a API de autenticação ou a base de dados.
+
+Para isso, o JWT é assinado utilizando um par de chaves RSA: a AUTH API possui a chave privada, responsável por gerar os tokens, enquanto as demais APIs utilizam a chave pública para validar os tokens recebidos.
+
+![RSA](rsa.png)
+
+## Evitando Sobrecarga no fluxo de caixa
+
+Para melhorar a escalabilidade e eficiência do sistema, adotamos um fluxo assíncrono para processar as requisições de forma otimizada.
+
+O processo proposto consiste em receber a requisição e enviá-la para uma fila de processamento, garantindo que operações mais pesadas sejam tratadas em background sem bloquear o fluxo principal.
+
+A tecnologia escolhida para essa fila foi o Amazon SQS, uma solução gerenciada da AWS que permite a comunicação assíncrona entre sistemas, oferecendo escalabilidade automática e alta confiabilidade.
+
+Com essa abordagem, as APIs focam apenas na autenticação do usuário, enquanto o processamento ocorre de forma independente, reduzindo o tempo de resposta ao front-end e melhorando a experiência do usuário. Para acompanhar o status do processamento, é possível utilizar notificações ou consultas periódicas ao back-end.
+
+A requisição do front vai passar por um ELB, que vai balancear as requisições entre os containers que o ASG subir
+
+O SQS também vai redirecionar o item da fila para apenas uma instância que estiver online escalonada por outro grupo de ASG para os consumers da fila.
+
+e todos os dados serão salvos em uma base de dados Mongo DB hospedada no 
+MongoDB Atlas pois já garante:
+
+ - Replica Sets
+ - Backups Automáticos e Snapshots
+ - Armazenamento Durável com Journaling
+ - Failover Automático
+
+![RSA](release.png)
+
+**Melhorias**
+
+Implementar um fluxo de refresh token de curta duração para renovar a autenticação de forma segura.
+Criar um mecanismo de revogação de tokens para invalidar os refresh tokens comprometidos ou desnecessários.
+
+
+## Evitando Sobrecarga no fluxo de consolidados
+
+O Consolidados vai na base de dados do mongo buscar os dados do dia, feito a primeira consulta, vai gerar um cachê no **elasticache** para as demais consultas. o tempo de cache pode ser configurado.
+
+![Consolidated](consolidated.png)
+
+## Segurança
+
+Na AWS, para garantir que os EC2s sejam acessados externamente apenas através do Elastic Load Balancer (ELB), é possível criar regras de rede específicas. Para isso, você pode configurar uma VPC personalizada com sub-redes adequadas, de modo que a comunicação entre os EC2s seja permitida internamente e apenas o tráfego vindo do ELB seja autorizado. Além disso, os acessos ao SQS e ao Redis devem ser restritos à rede interna, impedindo o acesso via internet. O ELB já vem com a configuração padrão de segurança do AWS Shield Standard, que oferece proteção contra ataques DDoS.
+
+## Monitoria
+
+É possível utilizar o AWS CloudWatch Logs para monitorar e registrar os logs de eventos, erros e outros dados importantes. Além disso, o AWS CloudWatch Dashboard pode ser configurado para fornecer uma visualização detalhada e customizável dos erros e métricas dos serviços, facilitando a detecção e resolução de problemas. Com o CloudWatch, você consegue automatizar alertas para notificar sua equipe de incidentes e anomalias, proporcionando uma monitoria eficaz para a infraestrutura.
+
 ### Para rodar a API e o leitor da fila:
 
 ```bash
